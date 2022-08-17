@@ -404,7 +404,7 @@
 
                  4. 通过 request 中的服务调用信息，调用远程方法，返回结果赋值给 resp
 
-                   5. 返回 resp 中的数据
+                 5. 返回 resp 中的数据
 
             * private Response invokeRemote(Request request) 调用远程服务
 
