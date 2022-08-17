@@ -84,17 +84,17 @@
 
         - 方法
 
-            public static ServiceDescriptor from(Class clazz, Method method) 根据方法参数初始化一个 ServiceDescriptor 对象，最后返回该对象。
+            * public static ServiceDescriptor from(Class clazz, Method method) 根据方法参数初始化一个 ServiceDescriptor 对象，最后返回该对象。
 
                 clazz:Class 需要调用的类的 Class 对象
 
                 method:Method 需要调用的方法名
 
-            public boolean equals(Object o) 重写equal()方法：是否和当前类的实例相等
+            * public boolean equals(Object o) 重写equal()方法：是否和当前类的实例相等
 
-            public int hashCode() 重写 hashCode() 方法
+            * public int hashCode() 重写 hashCode() 方法
 
-            public String toString() 重写 toString() 方法
+            * public String toString() 重写 toString() 方法
 
 * **gk-rpc-transport**：封装网络服务
 
@@ -132,9 +132,9 @@
 
         - 方法
 
-            public void connect(Peer peer) 对 url 进行初始化
+            * public void connect(Peer peer) 对 url 进行初始化
 
-            public InputStream write(InputStream data)
+            * public InputStream write(InputStream data)
 
                 1. 创建 HttpURLConnection 对象 httpConn 并初始化。
 
@@ -146,7 +146,7 @@
 
                 5. 如果传输成功，返回输入流，否则返回错误流。
 
-            public void close()
+            * public void close()
 
 
     * HTTPTransportServer 类：实现 TransportServer 接口
@@ -159,26 +159,26 @@
 
         - 方法
 
-            public void init(int port, RequestHandler handler)
+            * public void init(int port, RequestHandler handler)
 
                 1. 初始化 handler, server
 
                 2. 启动监听：servlet 接收请求
 
-            public void start()
+            * public void start()
 
                 1. 启动服务端
                 2. server.join(); 调用的jetty的线程池
 
-            public void stop() 暂停服务端
+            * public void stop() 暂停服务端
 
-            - 内部类：RequestServlet 继承了 HttpServlet，内部封装了输入流输出流，以及对输入输出流的处理。
+        - 内部类：RequestServlet 继承了 HttpServlet，内部封装了输入流输出流，以及对输入输出流的处理。
 
 * **gk-rpc-common**：封装工具类
 
-    * ReflectionUtils 类：反射
+    * ReflectionUtils 类：反射工具类
 
-        public static <T> T newInstance(Class<T> clazz) 根据class创建对象
+        * public static <T> T newInstance(Class<T> clazz) 根据class创建对象
 
             clazz 待创建对象的类
 
@@ -186,9 +186,9 @@
 
             return 创建好的对象
 
-        public static Method[] getPublicMethods(Class clazz) 获取某个class的共有方法 —— 用 public 修饰的成员变量和方法称为共有变量和共有方法。
+        * public static Method[] getPublicMethods(Class clazz) 获取某个class的共有方法 —— 用 public 修饰的成员变量和方法称为共有变量和共有方法。
 
-        public static Object invoke(Object obj,
+        * public static Object invoke(Object obj,
                                 Method method,
                                 Object... args) 调用指定对象的指定方法
 
@@ -216,81 +216,81 @@
 
          - 成员变量
 
-            transportClass:Class<? extends TransportServer> 初始化为 HTTPTransportServer 的 class 对象
+            * transportClass:Class<? extends TransportServer> 初始化为 HTTPTransportServer 的 class 对象
 
-            encoderClass:Class<? extends Encoder> 初始化为 JSONEncoder 的 class 对象
+            * encoderClass:Class<? extends Encoder> 初始化为 JSONEncoder 的 class 对象
 
-            decoderClass:Class<? extends Decoder> 初始化为 JSONDecoder 的 class 对象
+            * decoderClass:Class<? extends Decoder> 初始化为 JSONDecoder 的 class 对象
 
-            port:int 端口号
+            * port:int 端口号
 
-    * ServiceInstance 类：表示一个具体的服务，封装了需要调用服务的具体信息
+   * ServiceInstance 类：表示一个具体的服务，封装了需要调用服务的具体信息
 
-          - 成员变量
+        - 成员变量
 
-              target:Object 调用服务的类对象
+            * target:Object 调用服务的类对象
 
-              method:Method 调用服务的方法
+            * method:Method 调用服务的方法
 
     * ServiceInvoker 类：封装调用具体的服务的工具，服务实例
 
-          - 方法
+        - 方法
 
           public Object invoke(ServiceInstance service,
-                     Request request) 通过 request 的 ServiceDescriptor 找到服务的实例，通过反射调用方法，传入参数
+                   Request request) 通过 request 的 ServiceDescriptor 找到服务的实例，通过反射调用方法，传入参数
 
     * ServiceManager 类：管理 RPC 所暴露的服务
 
-          - 成员变量
+        - 成员变量
 
-              services:Map<ServiceDescriptor, ServiceInstance> 封装调用服务所需要的 ServiceDescriptor 和 ServiceInstance。将服务描述，服务实例作为 key-value 存储，便于客户端传来时，能够找到准确的实例，调用正确的方法。
+          * services:Map<ServiceDescriptor, ServiceInstance> 封装调用服务所需要的 ServiceDescriptor 和 ServiceInstance。将服务描述，服务实例作为 key-value 存储，便于客户端传来时，能够找到准确的实例，调用正确的方法。
 
-                   ServiceDescriptor ：服务描述
+               * ServiceDescriptor ：服务描述
 
-                      > clazz:String 需要调用的类的 Class 对象
-                      > method:String 需要调用的方法名
-                      > returnType:String 返回结果类型
-                      > parameterTypes:String[] 请求参数类型数组
+                  * clazz:String 需要调用的类的 Class 对象
+                  * method:String 需要调用的方法名
+                  * returnType:String 返回结果类型
+                  * parameterTypes:String[] 请求参数类型数组
 
-                   ServiceInstance ：服务实例
+               * ServiceInstance ：服务实例
 
-                      > target:Object 调用服务的类对象
-                      > method:Method 调用服务的方法
+                  * target:Object 调用服务的类对象
+                  * method:Method 调用服务的方法
 
 
-          - 方法
+        - 方法
 
-              public ServiceManager() 构造方法，初始化this.services = new ConcurrentHashMap<>();
+            * public ServiceManager() 构造方法，初始化this.services = new ConcurrentHashMap<>();
 
-              public <T> void register(Class<T> interfaceClass, T bean) 服务注册
+            * public <T> void register(Class<T> interfaceClass, T bean) 服务注册
 
-                  1. 获取 interfaceClass 的公共方法数组。
+                1. 获取 interfaceClass 的公共方法数组。
 
-                  2. 遍历数组中的公共方法，每次创建并初始化一个 ServiceDescriptor 对象以及一个 ServiceInstance 对象注册进 services 中。
+                2. 遍历数组中的公共方法，每次创建并初始化一个 ServiceDescriptor 对象以及一个 ServiceInstance 对象注册进 services 中。
 
-              public ServiceInstance lookup(Request request) 查找服务
+            * public ServiceInstance lookup(Request request) 查找服务
 
-                  1. 通过 request 获取 ServiceDescriptor 服务描述对象。
+                1. 通过 request 获取 ServiceDescriptor 服务描述对象。
 
-                  2. 利用 services 获取对应的服务实例。
+                2. 利用 services 获取对应的服务实例。
 
       * RpcService 类：封装服务端
 
           - 成员变量
 
-              config:RpcServerConfig RPC配置信息
+              * config:RpcServerConfig RPC配置信息
 
-              net:TransportServer 服务器网络服务
+              * net:TransportServer 服务器网络服务
 
-              encoder:Encoder 序列化
+              * encoder:Encoder 序列化
 
-              decoder:Decoder 反序列化
+              * decoder:Decoder 反序列化
 
-              serviceManager:ServiceManager 服务管理
+              * serviceManager:ServiceManager 服务管理
 
-              serviceInvoker:ServiceInvoker 服务实例
+              * serviceInvoker:ServiceInvoker 服务实例
 
-              handler:RequestHandler 请求处理器
+              * handler:RequestHandler 请求处理器
 
                   1. 同时实现 RequestHandler 接口，实现其中的 onRequest() 方法。读取输入流中的二进制数组，对其进行反序列化，转换成 request 对象。
 
@@ -315,21 +315,21 @@
 
     * TransportSelector 接口：选择哪个 server 连接
 
-        init(List<Peer> peers,
+        * init(List<Peer> peers,
               int count,
               Class<? extends TransportClient> clazz); 初始化 selector
 
-              peers 可以连接的 server 端点信息
+            * peers 可以连接的 server 端点信息
 
-              count client 与 server 建立多少个连接
+            * count client 与 server 建立多少个连接
 
-              clazz client 实现 class
+            * clazz client 实现 class
 
-        TransportClient select(); 选择一个 transport 与 server 做交互，返回一个 TransportClient
+        * TransportClient select(); 选择一个 transport 与 server 做交互，返回一个 TransportClient
 
-        void release(TransportClient client); 释放用完的 client
+        * void release(TransportClient client); 释放用完的 client
 
-        void close();
+        * void close();
 
     * RandomTransportSelector 类：随机选择一个 server 进行连接，实现 TransportSelector 接口
 
@@ -339,23 +339,23 @@
 
         - 方法（由于 List 用 ArrayList 实现，线程不安全，所以除构造方法外其他方法加 synchronized
 
-            public RandomTransportSelector() 构造方法，初始化 clients
+            * public RandomTransportSelector() 构造方法，初始化 clients
 
-            public synchronized void init(List<Peer> peers,
+            * public synchronized void init(List<Peer> peers,
                      int count,
                      Class<? extends TransportClient> clazz) 初始化
 
-                     1. 连接数初始化，最小为 1
+                 1. 连接数初始化，最小为 1
 
-                     2. peers 初始化，通过 ReflectionUtils 工具类根据 clazz 创建 TransportClient 对象
+                 2. peers 初始化，通过 ReflectionUtils 工具类根据 clazz 创建 TransportClient 对象
 
-                     3. TransportClient 对象连接好后，再加入 clients
+                 3. TransportClient 对象连接好后，再加入 clients
 
-            public synchronized TransportClient select() 从 clients 随机取出一个 client 用于连接
+            * public synchronized TransportClient select() 从 clients 随机取出一个 client 用于连接
 
-            public synchronized void release(TransportClient client) 使用完的 client 放回 clients
+            * public synchronized void release(TransportClient client) 使用完的 client 放回 clients
 
-            public synchronized void close() 关闭 client 的连接，清除 clients 缓存
+            * public synchronized void close() 关闭 client 的连接，清除 clients 缓存
 
     * RpcClientConfig 类：RpcClient配置
 
@@ -387,26 +387,26 @@
 
         - 方法
 
-            public RemoteInvoker(Class clazz,
+            * public RemoteInvoker(Class clazz,
                   Encoder encoder,
                   Decoder decoder,
                   TransportSelector selector) 初始化
 
-            public Object invoke(Object proxy,
+            * public Object invoke(Object proxy,
                    Method method,
                    Object[] args) 调用远程服务的方法
 
-                   1. 创建 Request 对象 request
+                 1. 创建 Request 对象 request
 
-                   2. 设置 request 采用的服务描述以及方法参数
+                 2. 设置 request 采用的服务描述以及方法参数
 
-                   3. 创建 Response 对象 resp
+                 3. 创建 Response 对象 resp
 
-                   4. 通过 request 中的服务调用信息，调用远程方法，返回结果赋值给 resp
+                 4. 通过 request 中的服务调用信息，调用远程方法，返回结果赋值给 resp
 
                    5. 返回 resp 中的数据
 
-            private Response invokeRemote(Request request) 调用远程服务
+            * private Response invokeRemote(Request request) 调用远程服务
 
                 1. 通过选择器获取已经连接好的 client
 
@@ -434,6 +434,4 @@
 
             public RpcClient(RpcClientConfig config) 有参构造方法
 
-            public <T> T  getProxy(Class<T> clazz) 获取动态代理
-
-                
+            public <T> T getProxy(Class<T> clazz) 获取动态代理
