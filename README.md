@@ -224,7 +224,7 @@
 
             port:int 端口号
 
-   * ServiceInstance 类：表示一个具体的服务，封装了需要调用服务的具体信息
+    * ServiceInstance 类：表示一个具体的服务，封装了需要调用服务的具体信息
 
           - 成员变量
 
@@ -232,14 +232,14 @@
 
               method:Method 调用服务的方法
 
-      * ServiceInvoker 类：封装调用具体的服务的工具，服务实例
+    * ServiceInvoker 类：封装调用具体的服务的工具，服务实例
 
           - 方法
 
           public Object invoke(ServiceInstance service,
                      Request request) 通过 request 的 ServiceDescriptor 找到服务的实例，通过反射调用方法，传入参数
 
-      * ServiceManager 类：管理 RPC 所暴露的服务
+    * ServiceManager 类：管理 RPC 所暴露的服务
 
           - 成员变量
 
